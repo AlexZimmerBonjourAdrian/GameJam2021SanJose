@@ -22,6 +22,7 @@ public class SC_NPCEnemy : MonoBehaviour, IEntity
     float nextAttackTime = 0;
     Rigidbody r;
     public double speedBullet = 1;
+    public SC_EnemySpawner spawner;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +58,9 @@ public class SC_NPCEnemy : MonoBehaviour, IEntity
                     }
                 }
             }
+
+            GetComponent<Rigidbody>().AddForce(Vector3.up * 100);
+            
         }
         //Move towardst he player
         agent.destination = playerTransform.position;
@@ -84,18 +88,27 @@ public class SC_NPCEnemy : MonoBehaviour, IEntity
             Atack();
         }
     }
+
+    private void OnDestroy()
+    {
+        //Slightly bounce the npc dead prefab up
+        //  es.EnemyEliminated(this);
+        spawner.EnemyEliminated(this);
+    }
     public void ApplyDamage(float points)
     {
         npcHP -= points;
         if(npcHP <= 0)
         {
-            //Destroy the NPC
+            Destroy(this.gameObject);
+
             GameObject npcDead = Instantiate(npcDeadPrefab, transform.position, transform.rotation);
-            //Slightly bounce the npc dead prefab up
             npcDead.GetComponent<Rigidbody>().velocity = (-(playerTransform.position - transform.position).normalized * 8) + new Vector3(0, 5, 0);
             Destroy(npcDead, 10);
-            es.EnemyEliminated(this);
-            Destroy(gameObject);
+
+            //Destroy the NPC
+            
+
         }
     }
 }

@@ -9,12 +9,13 @@ public class SC_DamageReceiver : MonoBehaviour, IEntity
     public void ApplyDamage(float points)
     {
         playerHP -= points;
-
+        print(playerHP);
         if(playerHP <= 0)
         {
             //Player is dead
             playerController.canMove = false;
             playerHP = 0;
+
         }
     }
 }

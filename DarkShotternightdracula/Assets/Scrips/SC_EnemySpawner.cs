@@ -43,7 +43,7 @@ public class SC_EnemySpawner : MonoBehaviour
             else
             {
                 //Initialize new wave
-                enemiesToEliminate = waveNumber * enemiesPerWave;
+                enemiesToEliminate = 3;
                 enemiesEliminated = 0;
                 totalEnemiesSpawned = 0;
                 waitingForWave = false;
@@ -56,7 +56,7 @@ public class SC_EnemySpawner : MonoBehaviour
                 nextSpawnTime = Time.time + spawnInterval;
 
                 //Spawn enemy 
-                if(totalEnemiesSpawned < enemiesToEliminate)
+                if(true)
                 {
                     Transform randomPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
 

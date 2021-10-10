@@ -73,6 +73,7 @@ namespace FPSControllerLPFP
         private SmoothVelocity _velocityZ;
         private bool _isGrounded;
 
+        public Camera fpsCam;
         private readonly RaycastHit[] _groundCastResults = new RaycastHit[8];
         private readonly RaycastHit[] _wallCastResults = new RaycastHit[8];
 
@@ -100,6 +101,8 @@ namespace FPSControllerLPFP
 			arms.SetPositionAndRotation(t.position, t.rotation);
 			return arms;
         }
+        
+
         
         /// Clamps <see cref="minVerticalAngle"/> and <see cref="maxVerticalAngle"/> to valid values and
         /// ensures that <see cref="minVerticalAngle"/> is less than <see cref="maxVerticalAngle"/>.
@@ -138,22 +141,90 @@ namespace FPSControllerLPFP
 
             _isGrounded = true;
         }
-			
+
+       
+
+        void OnCollisionEnter(Collision collision)
+        {
+            if(collision.transform.tag == "Enemy" || collision.transform.tag == "Bullet")
+            {
+                this.GetComponent<SC_DamageReceiver>().ApplyDamage(10);
+                Destroy(collision.gameObject);
+            }
+
+        }
+
         /// Processes the character movement and the camera rotation every fixed framerate frame.
         private void FixedUpdate()
         {
             // FixedUpdate is used instead of Update because this code is dealing with physics and smoothing.
-            RotateCameraAndCharacter();
-            MoveCharacter();
+            if (canMove)
+            {
+                RotateCameraAndCharacter();
+                MoveCharacter();
+            }
+            
             _isGrounded = false;
         }
 			
         /// Moves the camera to the character, processes jumping and plays sounds every frame.
         private void Update()
         {
-			arms.position = transform.position + transform.TransformVector(armPosition);
-            Jump();
-            PlayFootstepSounds();
+
+            if (canMove)
+            {
+                arms.position = transform.position + transform.TransformVector(armPosition);
+                Jump();
+                PlayFootstepSounds();
+                Fire();
+            }
+           
+        }
+
+        void Fire()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                print("click pressed");
+
+                Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+                RaycastHit hit;
+                if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit))
+                {
+                    // Set the end position for our laser line 
+                   // print("object detected");
+                   // print(hit.transform.tag);
+                    // Get a reference to a health script attached to the collider we hit
+                    if (hit.transform.tag=="Enemy")
+                    {
+                        
+
+                        IEntity enemy = hit.transform.GetComponent<IEntity>();
+                        enemy.ApplyDamage(100f);
+                       // print("DAMAGE APPLAYED");
+                    }
+                    else
+                    {
+                    //    print("NO ENEMY");
+                    }
+
+                    // If there was a health script attached
+
+                    // Check if the object we hit has a rigidbody attached
+                    
+                }
+
+               
+                // Draw a line in the Scene View  from the point lineOrigin in the direction of fpsCam.transform.forward * weaponRange, using the color green
+                Debug.DrawRay(rayOrigin, fpsCam.transform.forward, Color.green);
+            }
+
+
+
+
+               
+
+            
         }
 
         private void RotateCameraAndCharacter()
@@ -212,6 +283,8 @@ namespace FPSControllerLPFP
 
         private void MoveCharacter()
         {
+
+
             var direction = new Vector3(input.Move, 0f, input.Strafe).normalized;
             var worldDirection = transform.TransformDirection(direction);
             var velocity = worldDirection * (input.Run ? runningSpeed : walkingSpeed);
