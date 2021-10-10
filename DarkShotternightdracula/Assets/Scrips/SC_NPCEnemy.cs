@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-
+using System.Collections;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 
@@ -14,14 +14,14 @@ public class SC_NPCEnemy : MonoBehaviour, IEntity
     public float attackRate = 0.5f;
     public Transform firePoint;
     public GameObject npcDeadPrefab;
-
+    public GameObject bullet;
     public Transform playerTransform;
     [HideInInspector]
     public SC_EnemySpawner es;
     NavMeshAgent agent;
     float nextAttackTime = 0;
     Rigidbody r;
-
+    public double speedBullet = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +30,9 @@ public class SC_NPCEnemy : MonoBehaviour, IEntity
         agent.speed = movementSpeed;
         r = GetComponent<Rigidbody>();
         r.useGravity = false;
-        r.isKinematic = true; 
+        r.isKinematic = true;
+        StartCoroutine("DoStuff");
+
     }
 
     // Update is called once per frame
@@ -41,7 +43,7 @@ public class SC_NPCEnemy : MonoBehaviour, IEntity
             if(Time.time > nextAttackTime)
             {
                 nextAttackTime = Time.time + attackRate;
-
+                
                 //Attack
                 RaycastHit hit;
                 if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, attackDistance))
@@ -63,7 +65,25 @@ public class SC_NPCEnemy : MonoBehaviour, IEntity
         //Gradually reduce rigidbody velocity if the force was applied by the bullet
         r.velocity *= 0.99f;
     }
+    public void Atack()
+    {
+        GameObject tempBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject; //shoots from enemies eyes
+        Rigidbody bulletRigidBody = tempBullet.GetComponent<Rigidbody>();
+        bulletRigidBody.AddForce(bulletRigidBody.transform.forward*20f, ForceMode.Impulse);
+        
 
+    }
+
+    IEnumerator DoStuff()
+    {
+        int value = 0;
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            value++;
+            Atack();
+        }
+    }
     public void ApplyDamage(float points)
     {
         npcHP -= points;
