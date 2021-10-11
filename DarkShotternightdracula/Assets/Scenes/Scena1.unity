@@ -6747,6 +6747,30 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1935056080}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1847700286 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2643269009572624853, guid: bc0f571a4e6b0c24ca3147425b2c3e05,
+    type: 3}
+  m_PrefabInstance: {fileID: 1935056080}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847700285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ebbf09afaa7a14fa049921e4516bf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1847700287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847700285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce43fa2f82690e40b230ad76c7f934d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1847700290 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2682427629813854283, guid: bc0f571a4e6b0c24ca3147425b2c3e05,
@@ -6766,7 +6790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHP: 100
-  playerController: {fileID: 0}
+  playerController: {fileID: 1847700286}
 --- !u!1001 &1935056080
 PrefabInstance:
   m_ObjectHideFlags: 0

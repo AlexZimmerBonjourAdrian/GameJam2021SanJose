@@ -247,7 +247,7 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 		{
 			randomMuzzleflashValue = Random.Range (minRandomValue, maxRandomValue);
 		}
-
+		/*
 		//Timescale settings
 		//Change timescale to normal when 1 key is pressed
 		if (Input.GetKeyDown (KeyCode.Alpha1)) 
@@ -279,7 +279,7 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 			Time.timeScale = 0.0f;
 			timescaleText.text = "0.0";
 		}
-
+		*/
 		//Set current ammo text from ammo int
 		currentAmmoText.text = currentAmmo.ToString ();
 
