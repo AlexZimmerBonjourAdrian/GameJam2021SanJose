@@ -8,6 +8,7 @@ public class SC_DamageReceiver : MonoBehaviour, IEntity
     public FPSControllerLPFP.FpsControllerLPFP playerController;
     public Text finDelJuego;
     public GameObject player;
+    public Camera secundaryCam;
     public void ApplyDamage(float points)
     {
         playerHP -= points;
@@ -17,7 +18,8 @@ public class SC_DamageReceiver : MonoBehaviour, IEntity
             {
                 //Player is dead
                 playerController.canMove = false;
-                Destroy(player);
+         Destroy(GameObject.Find("Assault_Rifle_01_Arms"));
+            secundaryCam.enabled = true;
                 print("MUERTO");
                 playerHP = 0;
                 finDelJuego.gameObject.SetActive(true);
