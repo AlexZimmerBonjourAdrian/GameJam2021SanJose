@@ -118,7 +118,7 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 	public Text currentWeaponText;
 	public Text currentAmmoText;
 	public Text totalAmmoText;
-
+	public Text puntaje;
 	[System.Serializable]
 	public class prefabs
 	{  
@@ -139,7 +139,6 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 		public Transform casingSpawnPoint;
 		//Bullet prefab spawn from this point
 		public Transform bulletSpawnPoint;
-
 		public Transform grenadeSpawnPoint;
 	}
 	public spawnpoints Spawnpoints;

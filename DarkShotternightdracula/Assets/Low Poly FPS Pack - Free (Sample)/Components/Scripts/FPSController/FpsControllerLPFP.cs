@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FPSControllerLPFP
 {
@@ -14,11 +15,12 @@ namespace FPSControllerLPFP
     public bool canMove = true;
 
 
-
+        public Text puntaje;
+        public int points;
 
 
 #pragma warning disable 649
-		[Header("Arms")]
+        [Header("Arms")]
         [Tooltip("The transform component that holds the gun camera."), SerializeField]
         private Transform arms;
 
@@ -93,6 +95,7 @@ namespace FPSControllerLPFP
             _velocityZ = new SmoothVelocity();
             Cursor.lockState = CursorLockMode.Locked;
             ValidateRotationRestriction();
+            puntaje.text = "0";
         }
 			
         private Transform AssignCharactersCamera()
@@ -148,6 +151,8 @@ namespace FPSControllerLPFP
         {
             if(collision.transform.tag == "Enemy" || collision.transform.tag == "Bullet")
             {
+
+
                 this.GetComponent<SC_DamageReceiver>().ApplyDamage(10);
                 Destroy(collision.gameObject);
             }
@@ -201,6 +206,8 @@ namespace FPSControllerLPFP
 
                         IEntity enemy = hit.transform.GetComponent<IEntity>();
                         enemy.ApplyDamage(100f);
+                        points += 10;
+                        puntaje.text = points.ToString();
                        // print("DAMAGE APPLAYED");
                     }
                     else
@@ -455,6 +462,8 @@ namespace FPSControllerLPFP
             {
                 get { return Input.GetButtonDown(jump); }
             }
+
+            
         }
     }
 }
